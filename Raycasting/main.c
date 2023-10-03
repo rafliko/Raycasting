@@ -49,7 +49,7 @@ struct
     Vector2 vector;
     float len;
     Color col;
-} hit[fov];
+} ray[fov];
 
 Color getColorFromVal(int val)
 {
@@ -113,21 +113,21 @@ int main(void)
                 if (worldMap[(int)tmpy][(int)tmpx] != 0) // horizontal
                 {
                     detected = true;
-                    hit[i].vector = (Vector2){ tmpx, tmpy };
-                    hit[i].len = sqrt(pow(tmpx - player.x, 2) + pow(tmpy - player.y, 2)) * cos(degree * (i - fov / 2));
-                    hit[i].col = getColorFromVal(worldMap[(int)tmpy][(int)tmpx]);
+                    ray[i].vector = (Vector2){ tmpx, tmpy };
+                    ray[i].len = sqrt(pow(tmpx - player.x, 2) + pow(tmpy - player.y, 2)) * cos(degree * (i - fov / 2));
+                    ray[i].col = getColorFromVal(worldMap[(int)tmpy][(int)tmpx]);
                     break;
                 }
                 tmpy += Vector2Rotate(rotation_vector, degree * (i-fov/2)).y * 0.1f;
                 if (worldMap[(int)tmpy][(int)tmpx] != 0) // vertical
                 {
                     detected = true;
-                    hit[i].vector = (Vector2){ tmpx, tmpy };
-                    hit[i].len = sqrt(pow(tmpx - player.x, 2) + pow(tmpy - player.y, 2)) * cos(degree * (i - fov / 2));
-                    hit[i].col = getColorFromVal(worldMap[(int)tmpy][(int)tmpx]);
-                    hit[i].col.r -= 0.2f * hit[i].col.r;
-                    hit[i].col.g -= 0.2f * hit[i].col.g;
-                    hit[i].col.b -= 0.2f * hit[i].col.b;
+                    ray[i].vector = (Vector2){ tmpx, tmpy };
+                    ray[i].len = sqrt(pow(tmpx - player.x, 2) + pow(tmpy - player.y, 2)) * cos(degree * (i - fov / 2));
+                    ray[i].col = getColorFromVal(worldMap[(int)tmpy][(int)tmpx]);
+                    ray[i].col.r -= 0.2f * ray[i].col.r;
+                    ray[i].col.g -= 0.2f * ray[i].col.g;
+                    ray[i].col.b -= 0.2f * ray[i].col.b;
                     break;
                 }
             }
@@ -155,8 +155,8 @@ int main(void)
         DrawCircle(player.x * unit2d, player.y * unit2d, 5, YELLOW);
         for (int i = 0; i < fov; i++)
         {
-            DrawLine(player.x * unit2d, player.y * unit2d, hit[i].vector.x * unit2d, hit[i].vector.y * unit2d, hit[i].col);
-            DrawRectangle(i * unit3d+screenHeight, screenHeight/2-(1 / hit[i].len * 500)/2, unit3d, 1/hit[i].len * 500, hit[i].col);
+            DrawLine(player.x * unit2d, player.y * unit2d, ray[i].vector.x * unit2d, ray[i].vector.y * unit2d, ray[i].col);
+            DrawRectangle(i * unit3d+screenHeight, screenHeight/2-(1 / ray[i].len * 500)/2, unit3d, 1/ray[i].len * 500, ray[i].col);
         }
 
         EndDrawing();
