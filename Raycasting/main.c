@@ -91,8 +91,24 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        if (IsKeyDown(KEY_LEFT)) rotation_vector = Vector2Rotate(rotation_vector, -degree * GetFrameTime() * rotation_speed);
-        if (IsKeyDown(KEY_RIGHT)) rotation_vector = Vector2Rotate(rotation_vector, degree * GetFrameTime() * rotation_speed);
+        if (IsKeyDown(KEY_LEFT_SHIFT))
+        {
+            if (IsKeyDown(KEY_LEFT))
+            {
+                player.x -= Vector2Rotate(rotation_vector, degree * 90).x * GetFrameTime() * move_speed;
+                player.y -= Vector2Rotate(rotation_vector, degree * 90).y * GetFrameTime() * move_speed;
+            }
+            if (IsKeyDown(KEY_RIGHT))
+            {
+                player.x += Vector2Rotate(rotation_vector, degree * 90).x * GetFrameTime() * move_speed;
+                player.y += Vector2Rotate(rotation_vector, degree * 90).y * GetFrameTime() * move_speed;
+            }
+        }
+        else
+        {
+            if (IsKeyDown(KEY_LEFT)) rotation_vector = Vector2Rotate(rotation_vector, -degree * GetFrameTime() * rotation_speed);
+            if (IsKeyDown(KEY_RIGHT)) rotation_vector = Vector2Rotate(rotation_vector, degree * GetFrameTime() * rotation_speed);
+        }
         if (IsKeyDown(KEY_UP))
         {
             player.x += rotation_vector.x * GetFrameTime() * move_speed;
