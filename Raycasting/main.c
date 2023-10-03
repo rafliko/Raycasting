@@ -56,6 +56,7 @@ Color getColorFromVal(int val)
     switch (val)
     {
     default:
+        return BLACK;
         break;
     case 1:
         return SKYBLUE;
